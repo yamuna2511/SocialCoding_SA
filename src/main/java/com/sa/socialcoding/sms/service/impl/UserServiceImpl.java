@@ -6,6 +6,7 @@ import com.sa.socialcoding.sms.dto.UserDTO;
 import com.sa.socialcoding.sms.model.ParentDetail;
 import com.sa.socialcoding.sms.model.User;
 import com.sa.socialcoding.sms.model.UserCredentials;
+import com.sa.socialcoding.sms.repository.UserCustomRepository;
 import com.sa.socialcoding.sms.repository.UserRepository;
 import com.sa.socialcoding.sms.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -24,12 +25,15 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Autowired
+    private UserCustomRepository userCustomRepository;
+
+    @Autowired
     private UserAssembler userAssembler;
 
     @Override
-    public List<UserDTO> findAllUsers() {
+    public List<UserDTO> getUsers(Integer userId, String userType, String firstName) {
         List<UserDTO> userDTOList = new ArrayList<>();
-        List<User> users = userRepository.findAll();
+        List<User> users = userCustomRepository.getUsers(userId, userType, firstName);
         for(User user : users){
             UserDTO userDTO = userAssembler.fromUserEntityToDTO(user);
             userDTOList.add(userDTO);

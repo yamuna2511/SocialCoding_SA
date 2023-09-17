@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface UserService {
 
-    List<UserDTO> findAllUsers();
+    List<UserDTO> getUsers(Integer userId, String userType, String firstName);
 
     String submit(UserDTO userRequest);
 }

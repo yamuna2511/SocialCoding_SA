@@ -17,8 +17,11 @@ public class UserController {
     private UserService userService;
 
     @GetMapping(path="/all")
-    public List<UserDTO> getAllUsers() {
-        return userService.findAllUsers();
+    public List<UserDTO> getAllUsers(
+            @RequestParam(name = "userId", required = false) Integer userId,
+            @RequestParam(name = "userType", required = false) String userType,
+            @RequestParam(name = "firstName", required = false) String firstName ) {
+        return userService.getUsers(userId, userType, firstName);
     }
 
     @PostMapping(path="/submit")
