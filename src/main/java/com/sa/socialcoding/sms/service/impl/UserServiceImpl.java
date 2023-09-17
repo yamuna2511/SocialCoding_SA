@@ -8,9 +8,9 @@ import com.sa.socialcoding.sms.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -35,6 +35,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public String submit(UserDTO userRequest) {
         User user = userAssembler.fromDTOToEntity(userRequest);
+        user.setCreatedOn(new Date());
         userRepository.save(user);
         return "submitted successfully";
     }

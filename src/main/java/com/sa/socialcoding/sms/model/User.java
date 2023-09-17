@@ -5,10 +5,6 @@ package com.sa.socialcoding.sms.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.sql.Timestamp;
-import java.time.LocalDate;
-
-
 @Entity
 @Getter
 @Setter
@@ -32,8 +28,11 @@ public class User {
     @Column(name = "LAST_NAME")
     private String lastName;
 
+    @Column(name = "GENDER")
+    private String gender;
+
     @Column(name = "DOB")
-    private LocalDate dob;
+    private java.sql.Date dob;
 
     @Column(name = "ADDRESS1")
     private String address1;
@@ -51,12 +50,12 @@ public class User {
     private String country;
 
     @Column(name = "MOBILE")
-    private int mobile;
+    private String mobile;
 
     @Column(name = "MAIL_ID")
     private String mailId;
 
-    @Column(name = "CREATED_AT")
-    private Timestamp createdAt;
+    @Column(name = "CREATED_ON")
+    private java.util.Date createdOn;
 
 }

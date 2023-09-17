@@ -17,13 +17,14 @@ public class UserDTO {
     private String firstName;
     private String middleName;
     private String lastName;
+    private String gender;
     private String dob;
     private String address1;
     private String address2;
     private String city;
     private String state;
     private String country;
-    private int mobile;
+    private String mobile;
     private String mailId;
-    private Timestamp createdAt;
+    private Timestamp createdOn;
 }

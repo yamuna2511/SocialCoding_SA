@@ -2,42 +2,38 @@ package com.sa.socialcoding.sms.assembler;
 
 import com.sa.socialcoding.sms.dto.UserDTO;
 import com.sa.socialcoding.sms.model.User;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-
+import java.util.Locale;
+@Slf4j
 @Component
 public class UserAssembler {
 
     public User fromDTOToEntity(UserDTO userDTO){
         User userEntity = new User();
-        userEntity.setUserId(userDTO.getUserId());
-        userEntity.setUserType(userDTO.getUserType());
-        userEntity.setFirstName(userDTO.getFirstName());
-        userEntity.setMiddleName(userDTO.getMiddleName());
-        userEntity.setLastName(userDTO.getLastName());
-
-       // LocalDate dob = LocalDate.parse(userDTO.getDob());
-      //  userEntity.setDob(dob);
-
-        userEntity.setAddress1(userDTO.getAddress1());
-        userEntity.setAddress2(userDTO.getAddress2());
-        userEntity.setCity(userDTO.getCity());
-        userEntity.setState(userDTO.getState());
-        userEntity.setCountry(userDTO.getCountry());
-        userEntity.setMobile(userDTO.getMobile());
-        userEntity.setMailId(userDTO.getMailId());
-        userEntity.setCreatedAt(userDTO.getCreatedAt());
+        BeanUtils.copyProperties(userDTO, userEntity);
+        try{
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+            java.util.Date date = formatter.parse(userDTO.getDob());
+            java.sql.Date dob = new java.sql.Date(date.getTime());
+            userEntity.setDob(dob);
+        }catch(Exception e){
+            log.error("Exception in date conversion", e);
+        }
         return userEntity;
     }
 
     public UserDTO fromEntityToDTO(User userEntity){
         UserDTO userDTO = new UserDTO();
         BeanUtils.copyProperties(userEntity, userDTO);
-
-
-
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+        userDTO.setDob(formatter.format(userEntity.getDob()));
         return userDTO;
     }
 }
