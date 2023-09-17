@@ -2,6 +2,7 @@ package com.sa.socialcoding.sms.model;
 
 
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,6 +14,7 @@ import lombok.*;
 @Table(name="user")
 public class User {
     @Id
+    @GeneratedValue
     @Column(name = "USER_ID")
     private int userId;
 
@@ -57,5 +59,13 @@ public class User {
 
     @Column(name = "CREATED_ON")
     private java.util.Date createdOn;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private UserCredentials userCredential;
+
+    @OneToOne(mappedBy = "student", cascade = CascadeType.ALL, optional = true)
+    @PrimaryKeyJoinColumn
+    private ParentDetail parentDetail;
 
 }

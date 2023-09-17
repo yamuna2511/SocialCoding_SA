@@ -27,4 +27,5 @@ public class UserDTO {
     private String mobile;
     private String mailId;
     private Timestamp createdOn;
+    private ParentDetailDTO parentDetailDTO;
 }
