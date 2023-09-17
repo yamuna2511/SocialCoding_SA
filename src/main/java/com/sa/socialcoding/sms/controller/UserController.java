@@ -31,4 +31,11 @@ public class UserController {
         String msg = userService.submit(userRequest);
         return ResponseEntity.ok(msg);
     }
+
+    @GetMapping(path="/authenticate/{username}/{password}")
+    public Boolean getUserCredential(
+            @PathVariable(name = "username") String userName,
+            @PathVariable(name = "password") String password ) {
+        return userService.validateLogin(userName, password);
+    }
 }

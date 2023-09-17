@@ -10,8 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ParentDetailDTO {
-    private int parentId;
-    private int studentId;
     private String firstName;
     private String middleName;
     private String lastname;

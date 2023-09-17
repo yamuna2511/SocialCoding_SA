@@ -1,9 +1,6 @@
 package com.sa.socialcoding.sms.dto;
 
-import jakarta.persistence.Column;
 import lombok.*;
-
-import java.sql.Timestamp;
 import java.util.Date;
 
 @Data
@@ -26,6 +23,6 @@ public class UserDTO {
     private String country;
     private String mobile;
     private String mailId;
-    private Timestamp createdOn;
+    private Date createdOn;
     private ParentDetailDTO parentDetailDTO;
 }

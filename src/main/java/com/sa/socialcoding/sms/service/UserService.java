@@ -9,4 +9,6 @@ public interface UserService {
     List<UserDTO> getUsers(Integer userId, String userType, String firstName);
 
     String submit(UserDTO userRequest);
+
+    Boolean validateLogin(String userName, String password);
 }

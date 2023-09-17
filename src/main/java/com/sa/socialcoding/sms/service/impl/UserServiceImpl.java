@@ -1,13 +1,12 @@
 package com.sa.socialcoding.sms.service.impl;
 
 import com.sa.socialcoding.sms.assembler.UserAssembler;
-import com.sa.socialcoding.sms.dto.ParentDetailDTO;
 import com.sa.socialcoding.sms.dto.UserDTO;
-import com.sa.socialcoding.sms.model.ParentDetail;
 import com.sa.socialcoding.sms.model.User;
 import com.sa.socialcoding.sms.model.UserCredentials;
-import com.sa.socialcoding.sms.repository.UserCustomRepository;
 import com.sa.socialcoding.sms.repository.UserRepository;
+import com.sa.socialcoding.sms.repository.impl.UserCredentialRepository;
+import com.sa.socialcoding.sms.repository.impl.UserCustomRepository;
 import com.sa.socialcoding.sms.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,19 +15,19 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+
 @Slf4j
 @Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private UserCustomRepository userCustomRepository;
-
     @Autowired
     private UserAssembler userAssembler;
+    @Autowired
+    private UserCredentialRepository userCredentialRepo;
 
     @Override
     public List<UserDTO> getUsers(Integer userId, String userType, String firstName) {
@@ -59,5 +58,12 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(user);
         return "Submitted successfully";
+    }
+
+    @Override
+    public Boolean validateLogin(String userName, String password) {
+        log.info("Validating user");
+        UserCredentials userCred = userCredentialRepo.findByUserName(userName);
+        return userCred.getPassword().contentEquals(password) ? true : false;
     }
 }

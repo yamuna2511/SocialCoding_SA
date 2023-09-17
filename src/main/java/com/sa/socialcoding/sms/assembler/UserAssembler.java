@@ -42,10 +42,24 @@ public class UserAssembler {
         BeanUtils.copyProperties(userEntity, userDTO);
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
         userDTO.setDob(formatter.format(userEntity.getDob()));
+        if(Objects.nonNull(userEntity.getParentDetail())){
+            fromParentDTOToEntity(userDTO, userEntity.getParentDetail());
+        }
         return userDTO;
     }
 
-    public void fromParentEntityToDTO(User userEntity, ParentDetailDTO parentDetailDTO){
+    private void fromParentDTOToEntity(UserDTO userDTO, ParentDetail parentDetail){
+        ParentDetailDTO parentDetailDTO = new ParentDetailDTO();
+        parentDetailDTO.setFirstName(parentDetail.getFirstName());
+        parentDetailDTO.setMiddleName(parentDetail.getMiddleName());
+        parentDetailDTO.setLastname(parentDetail.getLastname());
+        parentDetailDTO.setRelationType(parentDetail.getRelationType());
+        parentDetailDTO.setMobile(parentDetail.getMobile());
+        parentDetailDTO.setMailId(parentDetail.getMailId());
+        userDTO.setParentDetailDTO(parentDetailDTO);
+    }
+
+    private void fromParentEntityToDTO(User userEntity, ParentDetailDTO parentDetailDTO){
         ParentDetail parentDetail = new ParentDetail();
         parentDetail.setStudent(userEntity);
         parentDetail.setFirstName(parentDetailDTO.getFirstName());

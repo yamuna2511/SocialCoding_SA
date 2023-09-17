@@ -13,7 +13,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @Table(name="USER_CREDENTIALS")
 public class UserCredentials {
-
     @Id
     @OneToOne
     @MapsId
