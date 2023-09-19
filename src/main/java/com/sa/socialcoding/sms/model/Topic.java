@@ -15,23 +15,15 @@ import lombok.Setter;
 public class Topic
 {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "TOPIC_ID")
     private int topicId;
 
     @Column(name = "TOPIC_NAME")
     private String topicName;
 
-    @ManyToOne
-    @MapsId
-    @JoinColumn(name = "MODULE_ID", nullable=false)
-    private Module module;
-
     @Column(name = "SEQ_NO")
     private int seqNo;
-
-    @Column(name = "PAGE_LINK")
-    private String pageLink;
 
     @Column(name = "TOPIC_TYPE")
     private String topicType;

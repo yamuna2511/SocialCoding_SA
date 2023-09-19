@@ -8,9 +8,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
-
 @RestController
 @RequestMapping(path="/course")
 public class CourseController {
@@ -28,9 +25,9 @@ public class CourseController {
     }
 
     @GetMapping(path="/getCourses")
-    public List<Course> getCourses(
+    public Course getCourses(
             @RequestParam(name = "courseId", required = false) Integer courseId) {
-        return courseService.getCourses(courseId);
+        return courseService.findByCourseId(courseId);
     }
 
     @PostMapping(path="/createTopic")
@@ -40,5 +37,11 @@ public class CourseController {
 
         String msg = courseService.createTopic(moduleDetails);
         return ResponseEntity.ok(msg);
+    }
+
+    @GetMapping(path="/getTopics")
+    public Module getTopics(
+            @RequestParam(name = "moduleId", required = false) Integer moduleId) {
+        return courseService.findByModuleId(moduleId);
     }
 }

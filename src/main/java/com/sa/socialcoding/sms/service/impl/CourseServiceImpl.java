@@ -1,6 +1,5 @@
 package com.sa.socialcoding.sms.service.impl;
 
-import com.sa.socialcoding.sms.assembler.CourseAssembler;
 import com.sa.socialcoding.sms.model.Course;
 import com.sa.socialcoding.sms.model.Module;
 import com.sa.socialcoding.sms.model.Topic;
@@ -21,64 +20,48 @@ public class CourseServiceImpl implements CourseService {
     private CourseRepository courseRepository;
 
     @Autowired
-    private CourseAssembler courseAssembler;
-
-    @Autowired
     private ModuleRepository moduleRepository;
     @Override
-    public List<Course> getCourses(Integer courseId) {
+    public Course findByCourseId(int courseId){
 
-       //return courseRepository.getById(courseId);
-        return null;
+        return courseRepository.findByCourseId(courseId);
     }
 
     @Override
     public String createCourse(Course courseReq) {
-        //Course course=courseAssembler.fromCourseDTOToEntity(courseReq);
         Course course= new Course();
-        Module moduleNew = new Module();
-        Set<Module> moduleSetNew = new HashSet<>();
         course.setCourseName(courseReq.getCourseName());
         course.setCourseDescription(courseReq.getCourseDescription());
         course.setDurationInMonth(courseReq.getDurationInMonth());
         Set<Module> moduleSet=courseReq.getModule();
         if(Objects.nonNull(moduleSet)){
             for(Module module : moduleSet){
-                moduleNew.setModuleDescription(module.getModuleDescription());
-                moduleNew.setModuleName(module.getModuleName());
-                moduleNew.setCourse(course);
-                moduleSetNew.add(moduleNew);
+                course.getModule().add(module);
             }
         }
-
-        course.setModule(moduleSetNew);
         courseRepository.save(course);
         return "course created successfully";
     }
 
     @Override
     public String createTopic(Module moduleDetails) {
-        /*odule modules = new Module();
-        modules.setCourse(moduleDetails.getCourse());
+        Module modules = new Module();
         modules.setModuleId(moduleDetails.getModuleId());
         modules.setModuleDescription(moduleDetails.getModuleDescription());
-        modules.setModuleName(moduleDetails.getModuleName());*/
-        Topic topic = new Topic();
-        Set<Topic> topicSetNew = new HashSet<>();
+        modules.setModuleName(moduleDetails.getModuleName());
         Set<Topic> topicSet=moduleDetails.getTopic();
         if(Objects.nonNull(topicSet)){
             for(Topic topics : topicSet){
-                topic.setModule(moduleDetails);
-                topic.setTopicName(topics.getTopicName());
-                topic.setTopicDescription(topics.getTopicDescription());
-                topic.setTopicType(topics.getTopicType());
-                topic.setSeqNo(topics.getSeqNo());
-                topicSetNew.add(topic);
+                modules.getTopic().add(topics);
             }
         }
-
-        moduleDetails.setTopic(topicSetNew);
-        moduleRepository.saveAndFlush(moduleDetails);
+        moduleRepository.save(modules);
         return "Topic created successfully";
+    }
+
+    @Override
+    public Module findByModuleId(int moduleId){
+
+        return moduleRepository.findByModuleId(moduleId);
     }
 }

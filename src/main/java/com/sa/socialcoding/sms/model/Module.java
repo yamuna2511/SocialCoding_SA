@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -17,22 +18,18 @@ import java.util.Set;
 public class Module
 {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MODULE_ID")
     private int moduleId;
 
     @Column(name = "MODULE_NAME")
     private String moduleName;
 
-    @ManyToOne
-    @MapsId
-    @JoinColumn(name = "COURSE_ID", nullable=false)
-    private Course course;
-
     @Column(name = "MODULE_DESCRIPTION")
     private String moduleDescription;
 
-    @OneToMany(mappedBy = "module", cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
-    private Set<Topic> topic;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "MODULE_ID", referencedColumnName = "MODULE_ID")
+    Set<Topic> topic = new HashSet<>();
+
 }

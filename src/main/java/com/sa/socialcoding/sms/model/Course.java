@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -14,11 +15,12 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+
 @Table(name="COURSE")
 public class Course
 {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "COURSE_ID")
     private int courseId;
 
@@ -31,8 +33,8 @@ public class Course
     @Column(name = "COURSE_DESCRIPTION")
     private String courseDescription;
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
-    private Set<Module> module;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "COURSE_ID", referencedColumnName = "COURSE_ID")
+    Set<Module> module = new HashSet<>();
 
 }
